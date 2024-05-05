@@ -2,7 +2,6 @@
 #include <vector>
 #include <cmath>
 #include <SFML/Graphics.hpp>
-
 #include "utils/math.hpp"
 
 
@@ -140,14 +139,28 @@ private:
 
     void applyGravity()
     {
-        for (auto& obj : m_objects) {
-            obj.accelerate(m_gravity);
+        const uint64_t objects_count = m_objects.size();
+        for (uint64_t i{0}; i < objects_count; ++i) {
+            VerletObject& object_1 = m_objects[i];
+            for (uint64_t k{i + 1}; k < objects_count; ++k) {
+                VerletObject&      object_2 = m_objects[k];
+                const sf::Vector2f v        = object_1.position - object_2.position; // Vector bewteen bodies
+                const float dist2           = v.x * v.x + v.y * v.y;
+                const sf::Vector2f v_norm        = {v.x/sqrt(dist2), v.y/sqrt(dist2)};
+                float g                     = (Math::G * object_1.radius * object_2.radius) / dist2;
+                const sf::Vector2f a        = {g * v_norm.x, g * v_norm.y};
+                const float mass_ratio_1 = object_1.radius / (object_1.radius + object_2.radius);
+                const float mass_ratio_2 = object_2.radius / (object_1.radius + object_2.radius);
+                object_1.accelerate({-a.x*mass_ratio_2, -a.y*mass_ratio_2});
+                object_2.accelerate({a.x*mass_ratio_1, a.y*mass_ratio_1});
+            }
         }
     }
 
+
     void checkCollisions(float dt)
     {
-        const float    response_coef = 0.75f;
+        const float    response_coef = 1.0f;
         const uint64_t objects_count = m_objects.size();
         // Iterate on all objects
         for (uint64_t i{0}; i < objects_count; ++i) {
