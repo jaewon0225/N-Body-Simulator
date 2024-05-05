@@ -40,11 +40,11 @@ int32_t main(int32_t, char*[])
     // Set simulation attributes
     const float        object_spawn_delay    = 0.025f;
     const uint32_t     max_objects_count     = 3;
-    float dtheta = 2*Math::PI / max_objects_count;
-    float theta = 0;
-    sf::Vector2f offset = {500.0f, 500.0f};
-    float spawn_point_radius = 120.0f;
-    float spawn_speed = 120.0f;
+    float              dtheta                = 2*Math::PI / max_objects_count;
+    float              theta                 = 0;
+    sf::Vector2f       offset                = {500.0f, 500.0f};
+    float              spawn_point_radius    = 120.0f;
+    float              spawn_speed           = 120.0f;
 
     sf::Clock clock;
     // Main loop
