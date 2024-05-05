@@ -40,6 +40,7 @@ int32_t main(int32_t, char*[])
     // Set simulation attributes
     const float        object_spawn_delay    = 0.025f;
     const uint32_t     max_objects_count     = 3;
+    float              object_size           = 15.0f;
     float              dtheta                = 2*Math::PI / max_objects_count;
     float              theta                 = 0;
     sf::Vector2f       offset                = {500.0f, 500.0f};
@@ -60,7 +61,7 @@ int32_t main(int32_t, char*[])
             clock.restart();
             sf::Vector2f spawn_point = spawn_point_radius * sf::Vector2f{cos(theta), sin(theta)};
             sf::Vector2f spawn_point_speed = spawn_speed * sf::Vector2f{sin(theta), -cos(theta)};
-            auto& object = solver.addObject(spawn_point + offset, 15.0f);
+            auto& object = solver.addObject(spawn_point + offset, object_size);
             solver.setObjectVelocity(object, spawn_point_speed);
             const float t      = solver.getTime();
             object.color = getRainbow(t*30);
