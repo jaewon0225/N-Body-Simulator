@@ -2,7 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-struct Math
+ssttruct Math
 {
     static constexpr float PI = 3.1415936f;
 
